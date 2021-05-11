@@ -40,13 +40,15 @@
           <div class="col-twelve">            
             <h3 class="animate-intro"></h3>
             <h1 class="animate-intro">
-              Movie Talk<br>
-              By Wizards At Work
+              Movie Talk<br/>
+              By<br/>
+              Wizards At Work
             </h1> 
             <div class="more animate-intro">
               <a class="smoothscroll button stroke" href="#DP">
                 Learn More
               </a>
+            </div>
             </div>    
           </div> <!-- end col-twelve --> 
         </div> <!-- end row --> 
@@ -59,13 +61,14 @@
    ================================================== -->
    <section id="DP">
    <section id="about">
-    <div class="row about-wrap">
+    <div class="row about-wrap" style="max-width: 1075px;">
       <div class="col-full">
         <div class="about-profile-bg"></div>
         <div class="intro">
           <h3 class="animate-this">Abstract</h3>
-          <p  class="lead animate-this">
-            The Dataset that we have chosen is 45,000 movies Dataset. This dataset consists of movies released on or before July 2017. Data points include plot keywords, budget, revenue, posters, release dates, languages, production companies, countries, TMDB vote counts and vote averages.This dataset also has files containing 26 million ratings from 270,000 users for all 45,000 movies. Ratings are on a scale of 1-5. #need to mention the other dataset as well.
+          <p  class="lead animate-this" style="text-align: justify;">
+            The Internet Movie Database (IMDb) is a website that acts as a global film database.This website provides a wealth of public information about films, including the title, the year of release, the genre, the audience, critics' ratings, the length of the film, the synopsis of the film, actors, directors, and much more.Given the vast amount of information available on this site, we thought it would be interesting to examine the data on movies on the IMDb website from 2000 to 2017.
+Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 movies and containing 26 million ratings from 270,000 users on a scale of 1-5, and the other dataset focusing on 45,000 movies and containing 26 million ratings from 270,000 users.This dataset includes films that were released on or before July 1, 2017.This dataset has been normalized and added to the Ohio S3 bucket.We also took another dataset with 6 million records, which we put in the Oregon S3 bucket, and created a single cluster in Ohio where the tables for all the datasets were created.
             </p>
         </div>   
       </div> <!-- end col-full  -->
@@ -76,7 +79,7 @@
    ================================================== -->
    <section id="2010" >
    <section id="about" >
-    <div class="row about-wrap">
+    <div class="row-fluid">
       <div class="col-full">
         <div class="about-profile-bg"></div>
          <div class="intro">
@@ -85,15 +88,15 @@
           <div class="col-full">            
             <div class="more animate-intro">
               <div class="col-twelve">
-                <div class="col-six" style="background-image: url(./static/images/dataset-cover1.jpg);background-size: cover;background-attachment: fixed;background-position: 65%;padding: 50px">
+                <div class="col-six" style="background-image: url(./static/images/dataset-cover1.jpg);background-size: cover;background-attachment: fixed;background-position: 65%;padding: 60px">
                   <h5>The Movies Dataset</h5>
-                  <strong>By Rounak Banik</strong>
-                  <p>1 GB Dataset</p>
+                  <h5>By Rounak Banik</h5>
+                  <h5><span>700 MB</span> Dataset</h5>
                 </div>
-                <div class="col-six" style="background-image: url(./static/images/dataset-cover.jpg);background-size: cover;background-attachment: fixed;background-position: 65%;padding: 50px">
-                  <h5>IMDB Dataset</h5>
-                  <strong>By Ashirwad</strong>
-                  <p>1 GB Dataset</p>
+                <div class="col-six" style="background-image: url(./static/images/dataset-cover-imdb.jpeg);background-size: cover;background-attachment: fixed;background-position: 35%;padding: 60px">
+                  <h5>&nbsp</h5>
+                  <h5>&nbsp</h5>
+                  <h5 style="text-align: right;"><span>1.5 GB</span> Dataset</h5>
                 </div>
               </div> 
             </div>   
@@ -114,27 +117,27 @@
           <h3 class="animate-this">Analysis</h3>
           <div class="col-full">
             <div class="col-md-12">
-                <p>Records</p>
+                <h5 style="color: #fff">Records</h5>
                 <p class="counter" style="font-size: 55px;">876684</p><br/>
             </div>
           </div>
-          <div class="col-full">            
+          <div class="col-full" style="margin-top: 25px;">            
             <div class="more animate-intro">
               <div class="col-twelve">
                 <div class="col-three">
-                  <p for="Records">Movies</p>
+                  <h5 style="color: #fff;margin-top: 5px;" for="Records">Movies</h5>
+                  <p class="counter" style="font-size: 55px;">431522</p>
+                </div>
+                <div class="col-three">
+                  <h5 style="color: #fff;margin-top: 5px;" for="Records">Ratings</h5>
                   <p class="counter" style="font-size: 55px;">876684</p>
                 </div>
                 <div class="col-three">
-                  <p for="Records">Ratings</p>
-                  <p class="counter" style="font-size: 55px;">2600000</p>
+                  <h5 style="color: #fff;margin-top: 5px;" for="Records">Tag Applications</h5>
+                  <p class="counter" style="font-size: 55px;">750000</p>
                 </div>
                 <div class="col-three">
-                  <p for="Records">Geners</p>
-                  <p class="counter" style="font-size: 55px;">876684</p>
-                </div>
-                <div class="col-three">
-                  <p for="Records">Users</p>
+                  <h5 style="color: #fff;margin-top: 5px;" for="Records">Users</h5>
                   <p class="counter" style="font-size: 55px;">270000</p>
                 </div>
               </div> 
@@ -150,7 +153,7 @@
       <div class="col-full">
         <div class="about-profile-bg"></div>
         <div class="intro">
-          <h3 class="animate-this">Outcomes</h3>
+          <h3 class="animate-this">Analysis & Visualization</h3>
           <h5>Audience Rating and Crtics Analysis</h5>
           <div class="col-full">            
             <div class="more animate-intro">
@@ -220,9 +223,16 @@
         <div class="about-profile-bg"></div>
         <div class="intro">
           <h3 class="animate-this">CONCLUSION</h3>
-          <h5>Few Analysis from the Dataset.</h5>
-          <div class="col-full">            
-            <p>Dataset Actual vs Predictive Analysis</p>   
+          <h5>This study through a large volume of data, with anlytics and Visualization for movies between 2000 and 2017:</h5>
+          <div class="col-full" style="margin-top: 10px; color: #505050">            
+            <p style="margin-bottom: 5px;"> - Critics rate more severe than the public ratings. -</p>
+            <p style="margin-bottom: 5px;"> - Audience ratings of the movies were quite close to those of the critics ratings. -</p>
+            <p style="margin-bottom: 5px;"> - Average Movie duration is mostly ranging from 60 minutes and 120 minutes. -</p>
+            <p style="margin-bottom: 5px;"> - Movies makes most Millions which are rated well by critics and audience. -</p>
+            <p style="margin-bottom: 5px;"> - Movies makes most millions if movie duration fall under 60 minutes and 150 minutes (2h30) make the most money. -</p>
+            <p style="margin-bottom: 5px;"> - Movies are expected to make less money if they exceed 3 hours duration. -</p>
+            <p style="margin-bottom: 5px;"> - Action, Drama and Mystery movies make most money compared to other genres. -</p>
+            <p style="margin-bottom: 5px;"> - Movies under Animation, Adventure, Biography, Crime, Documentary, Mystery and Sci-fi were highest rated by the public. -</p>
           </div> <!-- end col-twelve --> 
           <br/><br/>
         </div> <!-- end row --> 
