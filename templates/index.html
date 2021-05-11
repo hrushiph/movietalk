@@ -83,8 +83,16 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
         <div class="col-full">
           <div class="about-profile-bg"></div>
           <div class="intro">
-            <h3 class="animate-this">Data Source</h3></div>
-            <h5>KAGGLE</h5> <br/>   
+            <h3 class="animate-this">Data SourceS</h3></div>
+            <div class="col-full">
+              <div class="col-twelve">
+                <div class="col-six"><h5>KAGGLE</h5>
+                  <br/></div>
+                <div class="col-six"><h5>IMDB</h5>
+                  <br/></div>
+              </div>
+            </div>
+            <br/>   
             <div class="col-full">            
               <div class="more animate-intro">
                 <div class="col-twelve">
@@ -155,9 +163,9 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
         <div class="row">
           <div class="col-twelve">            
             <h3 class="animate-intro"></h3>
-            <h1 class="animate-intro">
+            <!-- <h1 class="animate-intro">
               Lets take a break ??
-            </h1>
+            </h1> -->
             <h1>
               Not yet guys, Hold on to your seats
             </h1> 
@@ -178,10 +186,10 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
       <div class="col-full">
         <div class="about-profile-bg"></div>
         <div class="intro">
-          <h3 class="animate-this">Analysis & Visualization</h3>
-          <h5>Audience Rating and Crtics Analysis</h5>
+          <h3 class="animate-this" style="margin-bottom: 50px;">Analysis & Visualization</h3>
           <div class="col-full">            
             <div class="more animate-intro">
+              <h5>SNS Plot Visuals for audience ratings based on critics ratings between 2000 and 2017.</h5>
               <div class="col-twelve">
                 <div class="col-six">
                   <p for="Records">Graphical Representation</p>
@@ -191,23 +199,56 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
                   <p for="Records">Hexagonal Representation</p>
                   <img src="../static/images/outputs/Hexagonal audience ratings on critics.png" alt="">
                 </div>
-              </div> 
+              </div>
+              <p style="margin-bottom: 50px;">Based on the above plots the ratings are strong in the band of 5/10 to 8/10.</p> 
             </div>   
           </div> <!-- end col-twelve --> 
-          <br/><br/>
-          <h5>Geners Analysis</h5>
+          <br/><br/><br/>
+          <h5 style="margin-bottom: 40px;">DataFrame Distribution by Year, Critics, Duration, Gross & Audience</h5>
+          <div style="margin-bottom: 50px;" class="col-full">
+            <div class="col-twelve">
+              <img src="../static/images/outputs/dataplot-for-columns.png" alt="">
+            </div>
+            <div class="col-twelve" style="margin-top: 40px;">
+              <p style="margin-bottom: 5px;">- Many movies were released in the year 2000, 2009 and 2017. -</p>
+              <p style="margin-bottom: 5px;">- Most critics ratings are between 40 to 70 on 100. -</p>
+              <p style="margin-bottom: 5px;">- Most of the Audience Ratings are between 6/10 and 7/10. -</p>
+              <p style="margin-bottom: 5px;">- Most of films have a duration of about 100 minutes (1h40). -</p>
+              <p style="margin-bottom: 5px;">- Most movies have a gross between 0 and 100 million $. -</p>
+            </div>
+          </div>
+          <br/><br/><br/>
+          <h5 style="margin-bottom: 40px;">Visualization of histograms of movies by genre between 2000 and 2017</h5>
           <div class="col-full">
             <div class="more animate-intro">
-              <div class="col-twelve" style="margin-bottom: 30px;">
+              <div class="col-twelve" >
                 <img src="../static/images/outputs/movie gross distribution.png" alt="">
-              </div><br/><br/>
-              <div class="col-twelve" style="margin-bottom: 30px;">
+              </div>
+              <div class="col-twelve" style="margin-bottom: 70px;">
+                <p style="margin-bottom: 5px;">- Movies with genres biography, comedy, crime, drama and horror were the most released between 2000 and 2017. and a fewer mystery, western or war movies.
+                   -</p>
+                <p style="margin-bottom: 5px;">- Action, drama, and mystery movies earned the most millions. -</p>
+              </div>
+              <br/><br/>
+              
+              <h5>Audience Histogram by genre of movie between 2000 and 2017</h5>
+              <div class="col-twelve" style="margin-top: 30px;">
                 <img src="../static/images/outputs/Movie Audience rating distribution.png" alt="">
-              </div><br/><br/>
-              <div class="col-twelve" style="margin-bottom: 30px;">
+              </div>
+              <div class="col-twelve" style="margin-bottom: 70px;">
+                <p style="margin-bottom: 5px;">- Movies that were most appreciated by the audience were action, adventure, animation, biography, comedy, crime, documentary, drama, mystery and science-fiction. -</p>
+              </div>
+              <br/><br/>
+              <h5 style="margin-top: 40px;">Critics Histogram by genre of movie between 2000 and 2017</h5>
+              <div class="col-twelve" style="margin-top: 30px;">
                 <img src="../static/images/outputs/movie critic rating distribution.png" alt="">
-              </div><br/><br/>
-              <div class="col-twelve" style="margin-bottom: 30px;">
+              </div>
+              <div class="col-twelve" style="margin-bottom: 70px;">
+                <p style="margin-bottom: 5px;">- Movies that were the top rated films by critics were adventure, animation, biography, comedy, documentary, drama, science fiction and mystery. -</p>
+              </div>
+              <br/><br/>
+              <h5 style="margin-top: 40px;">Boxplot for genres of movies between 2000 and 2017</h5>
+              <div class="col-twelve" style="margin-top: 50px;">
                 <img src="../static/images/outputs/genre vs other columns.png" alt="">
               </div>
             </div>
@@ -223,7 +264,7 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
         <div class="about-profile-bg"></div>
         <div class="intro">
           <h3 class="animate-this">FACET GRID</h3>
-          <h5 style="color: #fff;">Latest Movies</h5>
+          <h5 style="color: #fff;">Latest Movies Analysis</h5>
           <div class="col-full">            
             <div class="more animate-intro">
               <div class="col-twelve" style="margin-bottom: 30px;">
@@ -233,6 +274,10 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
               <div class="col-twelve" style="margin-bottom: 30px;">
                 <h5 style="color: #fff;">Histogram Representation</h5>
                 <img src="../static/images/outputs/facet histogram.png" alt="">
+              </div>
+              <div class="col-twelve" style="margin-bottom: 70px;">
+                <p style="margin-bottom: 5px;">- Action and adventure are the ones the one's that had audience ratings close to critics ratings. -</p>
+                <p style="margin-bottom: 5px;">- These were well rated by the public and critics brought in a lot of money. -</p>
               </div> 
             </div>   
           </div> <!-- end col-twelve --> 
@@ -252,10 +297,10 @@ Our project focuses on such IMDb datasets, with one dataset focusing on 45,000 m
           <div class="col-full" style="margin-top: 10px; color: #505050">            
             <p style="margin-bottom: 5px;"> - Critics rate more severe than the public ratings. -</p>
             <p style="margin-bottom: 5px;"> - Audience ratings of the movies were quite close to those of the critics ratings. -</p>
-            <p style="margin-bottom: 5px;"> - Average Movie duration is mostly ranging from 60 minutes and 120 minutes. -</p>
+            <p style="margin-bottom: 5px;"> - Average Movie duration is mostly ranging from <strong>60</strong> minutes and <strong>120</strong> minutes. -</p>
             <p style="margin-bottom: 5px;"> - Movies makes most Millions which are rated well by critics and audience. -</p>
-            <p style="margin-bottom: 5px;"> - Movies makes most millions if movie duration fall under 60 minutes and 150 minutes (2h30) make the most money. -</p>
-            <p style="margin-bottom: 5px;"> - Movies are expected to make less money if they exceed 3 hours duration. -</p>
+            <p style="margin-bottom: 5px;"> - Movies makes most millions if movie duration fall under <strong>60</strong> minutes and <strong>150</strong> minutes (<strong>2h30</strong>) make the most money. -</p>
+            <p style="margin-bottom: 5px;"> - Movies are expected to make less money if they exceed <strong>3</strong> hours duration. -</p>
             <p style="margin-bottom: 5px;"> - Action, Drama and Mystery movies make most money compared to other genres. -</p>
             <p style="margin-bottom: 5px;"> - Movies under Animation, Adventure, Biography, Crime, Documentary, Mystery and Sci-fi were highest rated by the public. -</p>
           </div> <!-- end col-twelve --> 
