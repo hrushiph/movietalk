@@ -1,0 +1,1424 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Internet Movie Database"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import boto3\n",
+    "import pandas as pd\n",
+    "import os\n",
+    "import io"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Dataset Loading"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# REGION = 'us-east-2'\n",
+    "# BUCKET_NAME = 'moviesd'\n",
+    "# KEY = 'DataResultNormCSV.csv'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# ACCESS_KEY_ID = 'AKIA322WEXOQKQSTY4X6'\n",
+    "# SECRET_ACCESS_KEY = '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'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "ClientError",
+     "evalue": "An error occurred (InvalidAccessKeyId) when calling the GetObject operation: The AWS Access Key Id you provided does not exist in our records.",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mClientError\u001b[0m                               Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-4-06f61720b289>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      5\u001b[0m         \u001b[0maws_secret_access_key\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mSECRET_ACCESS_KEY\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m     )\n\u001b[0;32m----> 7\u001b[0;31m \u001b[0mobj\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0ms3c\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_object\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mBucket\u001b[0m\u001b[0;34m=\u001b[0m \u001b[0mBUCKET_NAME\u001b[0m \u001b[0;34m,\u001b[0m \u001b[0mKey\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mKEY\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      8\u001b[0m \u001b[0mdf\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_csv\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mio\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mBytesIO\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mobj\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'Body'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mencoding\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'utf8'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      9\u001b[0m \u001b[0mdf\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.8/site-packages/botocore/client.py\u001b[0m in \u001b[0;36m_api_call\u001b[0;34m(self, *args, **kwargs)\u001b[0m\n\u001b[1;32m    355\u001b[0m                     \"%s() only accepts keyword arguments.\" % py_operation_name)\n\u001b[1;32m    356\u001b[0m             \u001b[0;31m# The \"self\" in this scope is referring to the BaseClient.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 357\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_make_api_call\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0moperation_name\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    358\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    359\u001b[0m         \u001b[0m_api_call\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m__name__\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mstr\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mpy_operation_name\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.8/site-packages/botocore/client.py\u001b[0m in \u001b[0;36m_make_api_call\u001b[0;34m(self, operation_name, api_params)\u001b[0m\n\u001b[1;32m    674\u001b[0m             \u001b[0merror_code\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mparsed_response\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"Error\"\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m{\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"Code\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    675\u001b[0m             \u001b[0merror_class\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mexceptions\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfrom_code\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0merror_code\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 676\u001b[0;31m             \u001b[0;32mraise\u001b[0m \u001b[0merror_class\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mparsed_response\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0moperation_name\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    677\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    678\u001b[0m             \u001b[0;32mreturn\u001b[0m \u001b[0mparsed_response\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mClientError\u001b[0m: An error occurred (InvalidAccessKeyId) when calling the GetObject operation: The AWS Access Key Id you provided does not exist in our records."
+     ]
+    }
+   ],
+   "source": [
+    "# s3c = boto3.client(\n",
+    "#         's3', \n",
+    "#         region_name = REGION,\n",
+    "#         aws_access_key_id = ACCESS_KEY_ID,\n",
+    "#         aws_secret_access_key = SECRET_ACCESS_KEY\n",
+    "#     )\n",
+    "# obj = s3c.get_object(Bucket= BUCKET_NAME , Key = KEY)\n",
+    "# df = pd.read_csv(io.BytesIO(obj['Body'].read()), encoding='utf8')\n",
+    "# df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# movies_data = pd.read_csv('imdb.csv')\n",
+    "movies_data = pd.read_csv('DataResultNormCSV.csv')\n",
+    "movies_data = movies_data.head(100)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "len(movies_data)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.head(10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "I display the first 10 lines."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data = movies_data.rename(columns = {'revenue': 'grossMillions', 'averageRating':'audienceRating', 'Movie_name':'Movie','runtimeMinutes':'timeMin','numVotes':'Vote', 'genres':'Genre','startYear': 'Year'}, inplace = False)\n",
+    "movies_data.head(10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Maximum of some the columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "max(movies_data.grossMillions)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "max(movies_data.audienceRating)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "movies_data[(movies_data['audienceRating'] == 9.0)]  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Overview of our dataset"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.describe()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.Year = movies_data.Year.replace(r'\\\\N',  '2000', regex=True)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# convert in category to count and use these columns\n",
+    "movies_data.Movie = movies_data.Movie.astype('category')\n",
+    "movies_data.Genre = movies_data.Genre.astype('category')\n",
+    "movies_data.Year = movies_data.Year.astype('int64')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_data.Genre.cat.categories[0]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# We are going to divide the dataframe"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## dataframe for 2000-2005"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# subsetting the dataframe\n",
+    "movies_00_05_g1 = movies_data.loc[(movies_data.Year >= 2000) & (movies_data.Year <= 2005) & \\\n",
+    "                        ((movies_data.Genre == 'Action') | (movies_data.Genre == 'Adventure') | \\\n",
+    "                       (movies_data.Genre == 'Animation') | (movies_data.Genre == 'Biography') | \\\n",
+    "                       (movies_data.Genre == 'Comedy') | (movies_data.Genre == 'Crime'))] "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_05_g2 = movies_data.loc[(movies_data.Year >= 2000) & (movies_data.Year <= 2005) & \\\n",
+    "                        ((movies_data.Genre == 'Documentary') | (movies_data.Genre == 'Drama') | \\\n",
+    "                       (movies_data.Genre == 'Family') | (movies_data.Genre == 'Fantasy') | \\\n",
+    "                       (movies_data.Genre == 'Horror') | (movies_data.Genre == 'Music'))]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_05_g3 = movies_data.loc[(movies_data.Year >= 2000) & (movies_data.Year <= 2005) & \\\n",
+    "                        ((movies_data.Genre == 'Mystery') | (movies_data.Genre == 'Romance') | \\\n",
+    "                       (movies_data.Genre == 'Sci') | (movies_data.Genre == 'Thriller') | \\\n",
+    "                       (movies_data.Genre == 'War') | (movies_data.Genre == 'Western'))]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## dataframe for 2006-2011"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# subsetting the dataframe\n",
+    "movies_06_11_g1 = movies_data.loc[(movies_data.Year >= 2006) & (movies_data.Year <= 2011) & \\\n",
+    "                        ((movies_data.Genre == 'Action') | (movies_data.Genre == 'Adventure') | \\\n",
+    "                       (movies_data.Genre == 'Animation') | (movies_data.Genre == 'Biography') | \\\n",
+    "                       (movies_data.Genre == 'Comedy') | (movies_data.Genre == 'Crime'))] "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_06_11_g2 = movies_data.loc[(movies_data.Year >= 2006) & (movies_data.Year <= 2011) & \\\n",
+    "                        ((movies_data.Genre == 'Documentary') | (movies_data.Genre == 'Drama') | \\\n",
+    "                       (movies_data.Genre == 'Family') | (movies_data.Genre == 'Fantasy') | \\\n",
+    "                       (movies_data.Genre == 'Horror') | (movies_data.Genre == 'Music'))]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_06_11_g3 = movies_data.loc[(movies_data.Year >= 2006) & (movies_data.Year <= 2011) & \\\n",
+    "                        ((movies_data.Genre == 'Mystery') | (movies_data.Genre == 'Romance') | \\\n",
+    "                       (movies_data.Genre == 'Sci') | (movies_data.Genre == 'Thriller') | \\\n",
+    "                       (movies_data.Genre == 'War') | (movies_data.Genre == 'Western'))]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## dataframe for 2012-2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# subsetting the dataframe\n",
+    "dataMovies_2012_2017_genre1 = movies_data.loc[(movies_data.Year >= 2012) & (movies_data.Year <= 2017) & \\\n",
+    "                        ((movies_data.Genre == 'Action') | (movies_data.Genre == 'Adventure') | \\\n",
+    "                       (movies_data.Genre == 'Animation') | (movies_data.Genre == 'Biography') | \\\n",
+    "                       (movies_data.Genre == 'Comedy') | (movies_data.Genre == 'Crime'))] "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_12_17_g2 = movies_data.loc[(movies_data.Year >= 2012) & (movies_data.Year <= 2017) & \\\n",
+    "                        ((movies_data.Genre == 'Documentary') | (movies_data.Genre == 'Drama') | \\\n",
+    "                       (movies_data.Genre == 'Family') | (movies_data.Genre == 'Fantasy') | \\\n",
+    "                       (movies_data.Genre == 'Horror') | (movies_data.Genre == 'Music'))]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_12_17_g3 = movies_data.loc[(movies_data.Year >= 2012) & (movies_data.Year <= 2017) & \\\n",
+    "                        ((movies_data.Genre == 'Mystery') | (movies_data.Genre == 'Romance') | \\\n",
+    "                       (movies_data.Genre == 'Sci') | (movies_data.Genre == 'Thriller') | \\\n",
+    "                       (movies_data.Genre == 'War') | (movies_data.Genre == 'Western'))]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Overview of a subset of dataframe for 2012-2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "movies_12_17_g2.info()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## data used\n",
+    "\n",
+    "* Movie ==> Movie title\n",
+    "* Genre ==> Genre of the movie\n",
+    "* timeMin ==> Movie duration (in minutes)\n",
+    "* Year ==> Release year of the film\n",
+    "* Vote ==> Number of public votes\n",
+    "* audienceRating ==> Public rating (score out of 10)\n",
+    "* criticRating ==> Critics rating (score out of 100)\n",
+    "* grossMillions ==> Movie Gross (in millions of dollars)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Data Visualization"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from matplotlib import pyplot as plt\n",
+    "import seaborn as sns\n",
+    "%matplotlib inline\n",
+    "import warnings\n",
+    "warnings.filterwarnings('ignore')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_05_g1.Genre.cat.categories[0:6]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Joinplot"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visuals for audience ratings based on critics ratings between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "j1 = sns.jointplot(data=movies_data, x='criticRating', y='audienceRating')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* High concentration of points mean that the audience ratings is inline with the critics ratings. \n",
+    "* we see that the ratings are strong in the band of 5/10 to 8/10."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## hexagon Joinplot"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Audience Ratings based on critics ratings between years 2000 to 2017: Hexagon"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "k1 = sns.jointplot(data=movies_data, x='criticRating', y='audienceRating', kind='hex')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "audience and critics data band"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visuals of audience ratings for film length between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "j2 = sns.jointplot(data=movies_data, y='audienceRating', x='timeMin')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Graph show that most movies are for a span between 60 min to 120 min, and some more than 180 min"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visuals for critics ratings for movie duration between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "j3 = sns.jointplot(data=movies_data, y='criticRating', x='timeMin')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* For the duration of 60 min to 120 min movie the critics ratings is varying from 10 to 0 to 10."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visuals for the movie revenue(gross) with respect to the audience ratings between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "j4 = sns.jointplot(data=movies_data, y='grossMillions', x='audienceRating')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Movies which were well rated (ratings concentrated between 5 to 10) have generated have most million dollars."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visual for the movie revenue(gross) with respect to critics ratings between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "j5 = sns.jointplot(data=movies_data, x='criticRating', y='grossMillions')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* We note that the High revenue for movie with higher critics ratings, whereas concentration is mostly stable between .5 to 1.5 millions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# dataframe distribution by year,critics,duration,gross and audience"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Distplot"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [],
+   "source": [
+    "fig, axes = plt.subplots(2, 3)\n",
+    "fig.set_size_inches(12, 8)\n",
+    "\n",
+    "m1 = sns.distplot(movies_data.audienceRating, bins=15, ax=axes[0, 0])\n",
+    "m2 = sns.distplot(movies_data.criticRating, bins=15, ax=axes[0, 1])\n",
+    "m3 = sns.distplot(movies_data.timeMin, bins=15, ax=axes[0, 2])\n",
+    "m4 = sns.distplot(movies_data.grossMillions, bins=15, ax=axes[1, 0])\n",
+    "m5 = sns.distplot(movies_data.Vote, bins=15, ax=axes[1, 1])\n",
+    "m6 = sns.distplot(movies_data.Year, bins=15, ax=axes[1, 2])\n",
+    "\n",
+    "#plt.setp(axes, yticks=[])\n",
+    "plt.tight_layout()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Many movies were released in the year 2000, 2009 and 2017.\n",
+    "* Most critics ratings are between 2 to 8.\n",
+    "* Most of the Audience Ratings are between 6/10 and 7/10.\n",
+    "* Most of films have a duration of about 100 minutes (1h40).\n",
+    "* Most movies have a gross between 0 and 100 million $."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Genre Histograms between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Genre1 2000-2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# subsetting the dataframe\n",
+    "movies_00_17_g1 = movies_data.loc[(movies_data.Genre == 'Action') | (movies_data.Genre == 'Adventure') | \\\n",
+    "                       (movies_data.Genre == 'Animation') | (movies_data.Genre == 'Biography') | \\\n",
+    "                       (movies_data.Genre == 'Comedy') | (movies_data.Genre == 'Crime')]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g1.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g1.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#on supprime toutes les categories non utilises\n",
+    "movies_00_17_g1.Genre = movies_00_17_g1.Genre.cat.remove_unused_categories()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g1.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g1.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Genre2 2000-2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g2 = movies_data.loc[(movies_data.Genre == 'Documentary') | (movies_data.Genre == 'Drama') | \\\n",
+    "                       (movies_data.Genre == 'Family') | (movies_data.Genre == 'Fantasy') | \\\n",
+    "                       (movies_data.Genre == 'Horror') | (movies_data.Genre == 'Music')]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g2.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g2.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#on supprime toutes les categories non utilises\n",
+    "movies_00_17_g2.Genre = movies_00_17_g2.Genre.cat.remove_unused_categories()\n",
+    "\n",
+    "movies_00_17_g2.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g2.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Genre3 2000-2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g3 = movies_data.loc[(movies_data.Genre == 'Mystery') | (movies_data.Genre == 'Romance') | \\\n",
+    "                       (movies_data.Genre == 'Sci') | (movies_data.Genre == 'Thriller') | \\\n",
+    "                       (movies_data.Genre == 'War') | (movies_data.Genre == 'Western')]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g3.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g3.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#on supprime toutes les categories non utilises\n",
+    "movies_00_17_g3.Genre = movies_00_17_g3.Genre.cat.remove_unused_categories()\n",
+    "\n",
+    "movies_00_17_g3.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g3.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Visualization of histograms of movies by genre between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Gross Histogram by genre of movie between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "sns.set()\n",
+    "\n",
+    "#2000-2017\n",
+    "gmovies_00_17_g1 = list()\n",
+    "gmovies_00_17_g2 = list()\n",
+    "gmovies_00_17_g3 = list()\n",
+    "\n",
+    "l_00_17_g1 = list()\n",
+    "l_00_17_g2 = list()\n",
+    "l_00_17_g3 = list()\n",
+    "\n",
+    "#2000-2017\n",
+    "#2000-2017 genre1\n",
+    "for dgmovies_00_17_g1 in movies_00_17_g1.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g1.append(movies_00_17_g1[movies_00_17_g1.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g1].grossMillions)\n",
+    "    l_00_17_g1.append(dgmovies_00_17_g1)\n",
+    "\n",
+    "#2000-2017 genre2\n",
+    "for dataGenre_2000_2017_genre2 in movies_00_17_g2.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g2.append(movies_00_17_g2[movies_00_17_g2.Genre == \\\n",
+    "                                                                     dataGenre_2000_2017_genre2].grossMillions)\n",
+    "    l_00_17_g2.append(dataGenre_2000_2017_genre2)\n",
+    "\n",
+    "#2000-2017 genre3\n",
+    "for dgmovies_00_17_g3 in movies_00_17_g3.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g3.append(movies_00_17_g3[movies_00_17_g3.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g3].grossMillions)\n",
+    "    l_00_17_g3.append(dgmovies_00_17_g3)   \n",
+    "       \n",
+    "# 3 lines, 3 columns\n",
+    "fig, ax = plt.subplots(1,3)\n",
+    "fig.set_size_inches(15, 3) #size of A4 paper   \n",
+    "\n",
+    "#2000-2017\n",
+    "ax[0].hist(gmovies_00_17_g1, bins=30, stacked=True, rwidth=1, label=l_00_17_g1)\n",
+    "ax[1].hist(gmovies_00_17_g2, bins=30, stacked=True, rwidth=1, label=l_00_17_g2)\n",
+    "ax[2].hist(gmovies_00_17_g3, bins=30, stacked=True, rwidth=1, label=l_00_17_g3)\n",
+    "\n",
+    "ax[0].set(xlabel='GrossMillions 2000-2017', ylabel='Number of movies')\n",
+    "ax[1].set(xlabel='GrossMillions 2000-2017')\n",
+    "ax[2].set(xlabel='GrossMillions 2000-2017')\n",
+    "\n",
+    "plt.suptitle('Movie Gross Distribution: 2000-2017')\n",
+    "for i in range(3):\n",
+    "    ax[i].legend()\n",
+    "\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* movies with genres biography, comedy, crime, drama and horror were the most released between 2000 and 2017. and a fewer mystery, western or war movies.\n",
+    "* action, drama, and mystery movies earned the most millions"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## audience Histogram by genre of movie between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sns.set()\n",
+    "\n",
+    "#2000-2017\n",
+    "gmovies_00_17_g1 = list()\n",
+    "gmovies_00_17_g2 = list()\n",
+    "gmovies_00_17_g3 = list()\n",
+    "\n",
+    "l_00_17_g1 = list()\n",
+    "l_00_17_g2 = list()\n",
+    "l_00_17_g3 = list()\n",
+    "\n",
+    "#2000-2017\n",
+    "#2000-2017 genre1\n",
+    "for dgmovies_00_17_g1 in movies_00_17_g1.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g1.append(movies_00_17_g1[movies_00_17_g1.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g1].audienceRating)\n",
+    "    l_00_17_g1.append(dgmovies_00_17_g1)\n",
+    "\n",
+    "#2000-2017 genre2\n",
+    "for dataGenre_2000_2017_genre2 in movies_00_17_g2.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g2.append(movies_00_17_g2[movies_00_17_g2.Genre == \\\n",
+    "                                                                     dataGenre_2000_2017_genre2].audienceRating)\n",
+    "    l_00_17_g2.append(dataGenre_2000_2017_genre2)\n",
+    "\n",
+    "#2000-2017 genre3\n",
+    "for dgmovies_00_17_g3 in movies_00_17_g3.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g3.append(movies_00_17_g3[movies_00_17_g3.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g3].audienceRating)\n",
+    "    l_00_17_g3.append(dgmovies_00_17_g3)   \n",
+    "       \n",
+    "# 3 lines, 3 columns\n",
+    "fig, ax = plt.subplots(1,3)\n",
+    "fig.set_size_inches(15, 3) #size of A4 paper   \n",
+    "\n",
+    "#2000-2017\n",
+    "ax[0].hist(gmovies_00_17_g1, bins=30, stacked=True, rwidth=1, label=l_00_17_g1)\n",
+    "ax[1].hist(gmovies_00_17_g2, bins=30, stacked=True, rwidth=1, label=l_00_17_g2)\n",
+    "ax[2].hist(gmovies_00_17_g3, bins=30, stacked=True, rwidth=1, label=l_00_17_g3)\n",
+    "\n",
+    "ax[0].set(xlabel='audienceRating 2000-2017', ylabel='Number of movies')\n",
+    "ax[1].set(xlabel='audienceRating 2000-2017')\n",
+    "ax[2].set(xlabel='audienceRating 2000-2017')\n",
+    "\n",
+    "plt.suptitle('Movie audienceRating Distribution: 2000-2017')\n",
+    "for i in range(3):\n",
+    "    ax[i].legend()\n",
+    "\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "*  movies that were most appreciated by the audience were action, adventure, animation, biography, comedy, crime, documentary, drama, mystery and science-fiction"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Critics Histogram by genre of movie between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sns.set()\n",
+    "\n",
+    "#2000-2017\n",
+    "gmovies_00_17_g1 = list()\n",
+    "gmovies_00_17_g2 = list()\n",
+    "gmovies_00_17_g3 = list()\n",
+    "\n",
+    "l_00_17_g1 = list()\n",
+    "l_00_17_g2 = list()\n",
+    "l_00_17_g3 = list()\n",
+    "\n",
+    "#2000-2017\n",
+    "#2000-2017 genre1\n",
+    "for dgmovies_00_17_g1 in movies_00_17_g1.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g1.append(movies_00_17_g1[movies_00_17_g1.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g1].criticRating)\n",
+    "    l_00_17_g1.append(dgmovies_00_17_g1)\n",
+    "\n",
+    "#2000-2017 genre2\n",
+    "for dataGenre_2000_2017_genre2 in movies_00_17_g2.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g2.append(movies_00_17_g2[movies_00_17_g2.Genre == \\\n",
+    "                                                                     dataGenre_2000_2017_genre2].criticRating)\n",
+    "    l_00_17_g2.append(dataGenre_2000_2017_genre2)\n",
+    "\n",
+    "#2000-2017 genre3\n",
+    "for dgmovies_00_17_g3 in movies_00_17_g3.Genre.cat.categories[0:6]:\n",
+    "    gmovies_00_17_g3.append(movies_00_17_g3[movies_00_17_g3.Genre == \\\n",
+    "                                                                     dgmovies_00_17_g3].criticRating)\n",
+    "    l_00_17_g3.append(dgmovies_00_17_g3)   \n",
+    "       \n",
+    "# 3 lines, 3 columns\n",
+    "fig, ax = plt.subplots(1,3)\n",
+    "fig.set_size_inches(15, 3) #size of A4 paper   \n",
+    "\n",
+    "#2000-2017\n",
+    "ax[0].hist(gmovies_00_17_g1, bins=30, stacked=True, rwidth=1, label=l_00_17_g1)\n",
+    "ax[1].hist(gmovies_00_17_g2, bins=30, stacked=True, rwidth=1, label=l_00_17_g2)\n",
+    "ax[2].hist(gmovies_00_17_g3, bins=30, stacked=True, rwidth=1, label=l_00_17_g3)\n",
+    "\n",
+    "ax[1].set_ylim([0, 100])\n",
+    "ax[2].set_ylim([0, 10])\n",
+    "\n",
+    "ax[0].set(xlabel='criticRating 2000-2017', ylabel='Number of movies')\n",
+    "ax[1].set(xlabel='criticRating 2000-2017')\n",
+    "ax[2].set(xlabel='criticRating 2000-2017')\n",
+    "\n",
+    "plt.suptitle('Movie criticRating Distribution: 2000-2017')\n",
+    "for i in range(3):\n",
+    "    ax[i].legend()\n",
+    "\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* Movies that were the top rated films by critics were adventure, animation, biography, comedy, documentary, drama, science fiction and mystery"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# boxplot"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Boxplot for genres of movies between 2000 and 2017"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "movies_00_17_g1.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "fig, axes = plt.subplots(2, 2)\n",
+    "fig.set_size_inches(11.7, 5.27)\n",
+    "plt.subplots_adjust(wspace=0.2, hspace=0.4)\n",
+    "\n",
+    "sns.boxplot(data=movies_00_17_g1, x='Genre', y='criticRating', ax=axes[0, 0])\n",
+    "sns.boxplot(data=movies_00_17_g1, x='Genre', y='audienceRating', ax=axes[0, 1])\n",
+    "sns.boxplot(data=movies_00_17_g1, x='Genre', y='grossMillions', ax=axes[1, 0])\n",
+    "sns.boxplot(data=movies_00_17_g1, x='Genre', y='timeMin', ax=axes[1, 1])\n",
+    "\n",
+    "plt.suptitle('Some data according to their genre: 2000-2017')\n",
+    "\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Facet Grid"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [],
+   "source": [
+    "movies_00_05_g1.Genre.cat.categories"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Action, Adventure, Animation, Biography, Comedy and Crime Visuals for audience ratings based on critics ratings from 2000 to 2005 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "g = sns.FacetGrid(movies_00_05_g1, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Documentary, Drama, Family, Fantasy, Horror and Music Visuals for audience ratings based on critics ratings from 2000 to 2005 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "g = sns.FacetGrid(movies_00_05_g2, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mystery, Romance, Science Fiction, Thriller, War and Western films Visual for audience ratings based on critics ratings from 2000 to 2005 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "g = sns.FacetGrid(movies_00_05_g3, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Action, Adventure, Animation, Biography, Comedy and Crime movies Visual for the audience ratings according to the critics ratings from 2006 to 2011 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#2006-2011\n",
+    "g = sns.FacetGrid(movies_06_11_g1, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Documentary, Drama, Family, Fantasy, Horror and Music movies Visuals for the audience ratings based on critics ratings from 2006 to 2011 movies: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#2006-2011\n",
+    "g = sns.FacetGrid(movies_06_11_g2, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mystery, Romance, Science Fiction, Thriller, War and Western movies Visuals for audience ratings based on critics ratings from 2006 to 2011 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#2006-2011\n",
+    "g = sns.FacetGrid(movies_06_11_g3, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Action, Adventure, Animation, Biography, Comedy and Crime movies Visuals for the audience’s ratings according to the ratings of the critics from 2012 to 2017 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#2012-2017\n",
+    "g = sns.FacetGrid(dataMovies_2012_2017_genre1, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Documentary, Drama, Family, Fantasy, Horror and Music movies Visual for audience ratings based on review ratings between 2012 to 2017 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#2012-2017\n",
+    "g = sns.FacetGrid(movies_12_17_g2, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Mystery, Romance, Science-Fiction, Thriller, War, and Western movies Visual for audience ratings based on review ratings from 2012 to 2017 movies:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "#2012-2017\n",
+    "g = sns.FacetGrid(movies_12_17_g3, row='Genre', col='Year', hue='Genre')\n",
+    "kws = dict(s=50, linewidth=0.5, edgecolor='black')\n",
+    "g = g.map(plt.scatter, 'criticRating', 'audienceRating', **kws)\n",
+    "g.add_legend()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Histogram Facet"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "dashboard having Action, Adventure, Animation, Biography, Comedy and Crime movies from 2000 to 2017\n",
+    "* Audience ratings based on movie's gross \n",
+    "* critics ratings wrt movies gross\n",
+    "* Movies gross wrt genre\n",
+    "* Audience ratings to critical ratings"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "scrolled": false
+   },
+   "outputs": [],
+   "source": [
+    "sns.set_style(\"dark\", {\"axes.facecolor\": \"black\"}) #white, whitegrid, dark, darkgrid, ticks\n",
+    "f, axes = plt.subplots(2, 2, figsize=(15,15))\n",
+    "\n",
+    "#Plot [0,0]\n",
+    "k1 = sns.kdeplot(movies_00_17_g1.grossMillions, movies_00_17_g1.audienceRating, \\\n",
+    "                 shade=True, shade_lowest=True, cmap='inferno', \\\n",
+    "                 ax=axes[0,0])\n",
+    "\n",
+    "k1b = sns.kdeplot(movies_00_17_g1.grossMillions, movies_00_17_g1.audienceRating, \\\n",
+    "                 cmap='cool',ax=axes[0,0])\n",
+    "\n",
+    "#Plot [0,1]\n",
+    "k2 = sns.kdeplot(movies_00_17_g1.grossMillions, movies_00_17_g1.criticRating, \\\n",
+    "                 shade=True, shade_lowest=False, cmap='inferno',  \\\n",
+    "                 ax=axes[0,1])\n",
+    "\n",
+    "k2b = sns.kdeplot(movies_00_17_g1.grossMillions, movies_00_17_g1.criticRating, \\\n",
+    "                 cmap='cool', ax=axes[0,1])\n",
+    "\n",
+    "#Plot [1,0]\n",
+    "z = sns.violinplot(data=movies_00_17_g1, \\\n",
+    "                   x='Genre', y='grossMillions', ax=axes[1,0], \\\n",
+    "                  palette='YlOrRd')\n",
+    "\n",
+    "#Plot [1,1]\n",
+    "k4 = sns.kdeplot(movies_00_17_g1.criticRating, movies_00_17_g1.audienceRating, \\\n",
+    "                shade=True, shade_lowest=False, cmap='Blues_r', \\\n",
+    "                ax=axes[1,1])\n",
+    "\n",
+    "k4b =sns.kdeplot(movies_00_17_g1.criticRating, movies_00_17_g1.audienceRating, \\\n",
+    "              cmap='gist_gray_r', ax=axes[1,1])\n",
+    "\n",
+    "k1.set(xlim=(-20,100), ylim=(0,10))\n",
+    "k2.set(xlim=(-25,200), ylim=(0,100))\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "* action and adventure are the ones the one's that had audience ratings close to critics ratings\n",
+    "* these were well rated by the public and critics brought in a lot of money."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Conclusion\n",
+    "\n",
+    "Involed preparation of the data, Modeling of these data, Visualization of these data with a wide variety of graphs for movies released in the cinema between 2000 and 2017.\n",
+    "\n",
+    "This study through a large volume of data, with anlytics and Visualization for movies between 2000 and 2017:\n",
+    "\n",
+    "1. Critics rate more severe than the public ratings.\n",
+    "2. Audience ratings of the movies were quite close to those of the critics ratings.\n",
+    "3. average Movie duration is mostly ranging from 60 minutes and 120 minutes.\n",
+    "4. Movies makes most Millions which are rated well by critics and audience.\n",
+    "5. Movies makes most millions if movie duration fall under 60 minutes and 150 minutes (2h30) make the most money\n",
+    "6. Movies are expected to make less money if they exceed 3 hours duration.\n",
+    "7. Action, Drama and Mystery movies make most money compared to other genres\n",
+    "8. Movies under Animation, adventure, biography, crime, documentary, mystery and science-fiction were highest rated by the public."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
